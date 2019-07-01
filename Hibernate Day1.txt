@@ -1,0 +1,1079 @@
+1.
+Employee.java
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC  
+ "-//Hibernate/Hibernate Mapping DTD 3.0//EN"   
+ "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+  
+ <hibernate-mapping>   
+ <class name="com.dsrc.bean.Employee" table="Employee">  
+    <id name="empno" type = "int" column = "EmpNO">  
+     <generator class="assigned"></generator>  
+    </id>              
+    <property name="name" column="Name" type="string"></property>  
+    <property name="city" column="City" type="string"></property>  
+  </class>        
+ </hibernate-mapping>  
+
+
+hibernate.cfg.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC  
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"  
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">  
+ <hibernate-configuration>  
+     <session-factory>  
+        <property name="hbm2ddl.auto">update</property>  
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>  
+        <property name="connection.url">jdbc:mysql://localhost:3306/myhibernate</property>  
+        <property name="connection.username">root</property>  
+        <property name="connection.password">dsrc</property>  
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>  
+     <mapping resource="employee.hbm.xml"/>   
+      </session-factory>  
+ </hibernate-configuration> 
+
+MainClass.java
+
+package com.dsrc.bean;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+public class MyMain {
+	
+	public static void main(String[] args) {
+
+SessionFactory sf=new Configuration().configure().buildSessionFactory();
+		
+		Session s=sf.openSession();
+		Employee c=new Employee(100,"Fathi","Chennai");
+		
+		Transaction tc=s.beginTransaction();
+		s.save(c);
+		tc.commit();
+		
+		System.out.println("Done...");
+	}
+	public void saveEmployee(Employee eb) {
+		// TODO Auto-generated method stub
+	}
+}
+
+
+_______________________________________________________________________________
+2.
+
+Department.java
+
+package com.dsrc.bean;
+
+public class Department {
+	public int deptno;
+	public String deptname;
+	public String location;
+	public Department(int deptno, String deptname, String location) {
+		this.deptno=deptno;
+		this.deptname=deptname;
+		this.location=location;
+	}
+	public int getDeptno() {
+		return deptno;
+	}
+	public void setDeptno(int deptno) {
+		this.deptno = deptno;
+	}
+	public String getDeptname() {
+		return deptname;
+	}
+	public void setDeptname(String deptname) {
+		this.deptname = deptname;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	
+	}
+
+
+department.hbm.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC  
+ "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+ "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+  
+ <hibernate-mapping>  
+  <class name="com.dsrc.bean.Department" table="Department">  
+    <id name="deptno" type = "int" column = "DeptNo">  
+     <generator class="assigned"></generator>  
+    </id>              
+    <property name="deptname" column="DeptName" type="string"></property>  
+    <property name="location" column="Location" type="string"></property>  
+  </class>        
+ </hibernate-mapping>  
+
+
+hiberbate.cfg.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC  
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"  
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">  
+ <hibernate-configuration>  
+     <session-factory>  
+        <property name="hbm2ddl.auto">update</property>  
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>  
+        <property name="connection.url">jdbc:mysql://localhost:3306/myhibernate</property>  
+        <property name="connection.username">root</property>  
+        <property name="connection.password">dsrc</property>  
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>  
+     <mapping resource="department.hbm.xml"/>   
+      </session-factory>  
+ </hibernate-configuration> 
+
+
+MyMain.java
+
+package com.dsrc;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+import com.dsrc.bean.Department;
+
+public class MyMain {
+	
+		public static void main(String[] args) {
+
+	SessionFactory sf=new Configuration().configure().buildSessionFactory();
+			
+			Session s=sf.openSession();
+			Department c=new Department(100,"Fathi","Chennai");
+			
+			Transaction tc=s.beginTransaction();
+			s.save(c);
+			tc.commit();
+			
+			System.out.println("Done...");
+		}
+		public void saveEmployee(Department eb) {
+			// TODO Auto-generated method stub
+		}
+	}
+__________________________________________________________________________________
+3.Create a hibernate application persist the employee details accepting from the user.
+
+Task:
+		Read EmpoyeeID , Name and City from the user using scanner and save to database.
+		
+The MainMenu Should look like the following
+
+EMPLOYEE MGMT
+-------------
+1. Enter Data
+2. Exit
+Enter your choice(1/2):
+
+If 1 is entered 
+
+Enter EmpNo: 101
+Enter Name : Aneesh
+Enter City :Kollam
+
+..Data Saved ...
+Enter your choice(1/2):
+
+if 2 end the appication.		
+
+Employee.java
+
+package com.dsrc.bean;
+
+public class Employee {
+	private int empno;
+	private String name;
+	private String city;
+	public int getEmpno() {
+		return empno;
+	}
+	public void setEmpno(int empno) {
+		this.empno = empno;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) { 
+		this.name = name;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	}
+
+employee.hbm.xml
+
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+<hibernate-mapping>
+   <class name = "com.dsrc.bean.Employee" table = "Employee"> 
+      <meta attribute = "class-description">
+         This class contains the employee detail. 
+      </meta>
+      <id name = "empno" type = "int" column = "EmpNO">
+         <generator class="assigned"/>
+      </id>
+      <property name = "name" column = "Name" type = "string"/>
+      <property name = "city" column = "City" type = "string"/>
+   </class>
+</hibernate-mapping>
+
+hibernate.cfg.xml
+
+?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC  
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"  
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">  
+<hibernate-configuration>  
+    <session-factory>  
+        <property name="hbm2ddl.auto">update</property>  
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>  
+ <property name="connection.url">jdbc:mysql://localhost:3306/myhibernate</property>         
+  <property name="connection.username">root</property>  
+        <property name="connection.password">dsrc</property>  
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>  
+     	<mapping resource="employee.hbm.xml"></mapping>   
+      </session-factory>  
+</hibernate-configuration>
+
+MyMain.java
+
+import java.util.Scanner;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+
+import com.dsrc.bean.Employee;
+
+
+public class MyMain {
+	private static int choice;
+	public static void main(String[] args) {
+		Employee e1 = new Employee();
+            System.out.println("1. Insert ");
+            System.out.println("3. Exit ");
+            System.out.println("Enter your choice ");
+            Scanner sc = new Scanner(System.in);
+            choice = sc.nextInt();
+            switch (choice) {
+                case 1:
+                    System.out.println("Enter the employee Number ");
+                    Scanner sc1 = new Scanner(System.in);
+                    int empno = sc1.nextInt();
+                    System.out.println("Enter the employee Name ");
+                    Scanner sc2 = new Scanner(System.in);
+                    String name = sc2.nextLine();
+                    System.out.println("Enter the City ");
+                    Scanner sc3 = new Scanner(System.in);
+                   String city = sc3.nextLine();
+                    e1.setEmpno(empno);
+                    e1.setName(name);
+                    e1.setCity(city);	
+                    
+                	SessionFactory sf=new Configuration().configure().buildSessionFactory();
+                		Session s=sf.openSession();
+                		Transaction tc=s.beginTransaction();
+                		s.save(e1);
+                		tc.commit();
+                		System.out.println("Done...");
+                        break;
+            case 2:
+              System.exit(0);
+              break;
+			}
+
+}
+}
+__________________________________________________________________________________
+4.
+
+
+Department.java
+
+package com.dsrc.bean;
+
+public class Department {
+	private int deptno;
+	private String deptname;
+	private String location;
+	public int getDeptno() {
+		return deptno;
+	}
+	public void setDeptno(int deptno) {
+		this.deptno = deptno;
+	}
+	public String getDeptname() {
+		return deptname;
+	}
+	public void setDeptname(String deptname) {
+		this.deptname = deptname;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	
+}
+
+
+department.hbm.xml
+
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+<hibernate-mapping>
+   <class name = "com.dsrc.bean.Department" table = "Department"> 
+      <meta attribute = "class-description">
+         This class contains the employee detail. 
+      </meta>
+      <id name = "deptno" type = "int" column = "DeptNo">
+         <generator class="assigned"/>
+      </id>
+      <property name = "deptname" column = "DeptName" type = "string"/>
+      <property name = "location" column = "Location" type = "string"/>
+   </class>
+</hibernate-mapping>
+
+hibernaye.cfg.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC  
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"  
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">  
+<hibernate-configuration>  
+    <session-factory>  
+        <property name="hbm2ddl.auto">update</property>  
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>  
+ <property name="connection.url">jdbc:mysql://localhost:3306/myhibernate</property>         
+  <property name="connection.username">root</property>  
+        <property name="connection.password">dsrc</property>  
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>  
+     	<mapping resource="department.hbm.xml"></mapping>   
+      </session-factory>  
+</hibernate-configuration>
+
+UserCode.java
+
+package com.dsrc.util;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+import com.dsrc.bean.Department;
+
+public class UserCode {
+	
+	public boolean saveDepartment(Department d)
+	{
+		SessionFactory sf=new Configuration().configure().buildSessionFactory();
+		Session s=sf.openSession();
+		Transaction tc=s.beginTransaction();
+		s.save(d);
+		tc.commit();
+		System.out.println("Done...");
+		
+		return false;
+	}
+}
+
+
+MyMain.java
+
+import java.util.Scanner;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+import com.dsrc.bean.Department;
+import com.dsrc.util.UserCode;
+
+public class MyMain {
+	private static int choice;
+	public static void main(String[] args) {
+
+		Department d1 = new Department();
+        System.out.println("1. Insert ");
+        System.out.println("3. Exit ");
+        System.out.println("Enter your choice ");
+        Scanner sc = new Scanner(System.in);
+        choice = sc.nextInt();
+        switch (choice) {
+            case 1:
+                System.out.println("Enter the employee Number ");
+                Scanner sc1 = new Scanner(System.in);
+                int deptno = sc1.nextInt();
+                System.out.println("Enter the employee Name ");
+                Scanner sc2 = new Scanner(System.in);
+                String name = sc2.nextLine();
+                System.out.println("Enter the City ");
+                Scanner sc3 = new Scanner(System.in);
+               String location = sc3.nextLine();
+                d1.setDeptno(deptno);
+                d1.setDeptname(name);
+                d1.setLocation(location);	
+                
+            	new UserCode().saveDepartment(d1);
+                    break;
+        case 2:
+          System.exit(0);
+          break;
+		}
+
+}
+}
+
+________________________________________________________________________________
+5.update
+
+Employee.java
+
+package com.dsrc.bean;
+
+public class Employee {
+	private int empno;
+	private String name;
+	private String city;
+	public int getEmpno() {
+		return empno;
+	}
+	public void setEmpno(int empno) {
+		this.empno = empno;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	
+}
+
+
+employee.hbm.xml
+
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+<hibernate-mapping>
+   <class name = "com.dsrc.bean.Employee" table = "Employee"> 
+      <meta attribute = "class-description">
+         This class contains the employee detail. 
+      </meta>
+      <id name = "empno" type = "int" column = "EmpNO">
+         <generator class="assigned"/>
+      </id>
+      <property name = "name" column = "Name" type = "string"/>
+      <property name = "city" column = "City" type = "string"/>
+   </class>
+</hibernate-mapping>  
+
+hibernate.cfg.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC  
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"  
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">  
+<hibernate-configuration>  
+    <session-factory>  
+        <property name="hbm2ddl.auto">update</property>  
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>  
+ <property name="connection.url">jdbc:mysql://localhost:3306/myhibernate</property>         
+  <property name="connection.username">root</property>  
+        <property name="connection.password">dsrc</property>  
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>  
+     	<mapping resource="employee.hbm.xml"></mapping>   
+      </session-factory>  
+</hibernate-configuration>
+
+MyMain.java
+
+import java.util.Scanner;
+
+import com.dsrc.bean.Employee;
+import com.dsrc.util.UserCode;
+
+public class MyMain {
+
+	public static void main(String[] args) {
+
+			Employee e1 = new Employee();
+	                System.out.println("Enter EmpNo ");
+	                Scanner sc1 = new Scanner(System.in);
+	                int empno = sc1.nextInt();
+	                System.out.println("Enter New  Name ");
+	                Scanner sc2 = new Scanner(System.in);
+	                String name = sc2.nextLine();
+	                System.out.println("Enter New City ");
+	                Scanner sc3 = new Scanner(System.in);
+	               String city = sc3.nextLine();
+	                e1.setEmpno(empno);
+	                e1.setName(name);
+	                e1.setCity(city);
+	            	new UserCode().updateEmployee(e1);
+	} 
+	}
+
+	
+
+UserCode.java
+
+package com.dsrc.util;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+import com.dsrc.bean.Employee;
+
+public class UserCode {
+	
+	public boolean updateEmployee(Employee bean)
+	{
+		SessionFactory sf=new Configuration().configure().buildSessionFactory();
+		Session s=sf.openSession();
+		Transaction tx=null;
+		try{
+			tx = s.beginTransaction();
+			Employee employee=(Employee)s.get(Employee.class,bean.getEmpno());
+			employee.setName(bean.getName());
+			employee.setCity(bean.getCity());
+			s.update(employee); 
+	         tx.commit();
+         	System.out.println("Done...");
+		}
+		catch(HibernateException e)
+		{
+			if(tx!=null)
+				tx.rollback();
+			e.printStackTrace();			
+		}
+		finally
+		{
+			s.close();
+		}
+		return false;
+	}
+}
+__________________________________________________________________________________
+
+6.Annotation Create a hibernate application persist the employee using Hibernate Annotations..
+
+Employee.java
+
+package com.dsrc.bean;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Employee")
+public class Employee {
+@Id
+@Column(name="EmpNO")
+	private int empno;
+@Column(name="Name")
+	private String name;
+@Column(name="City")
+	private String city;
+	public Employee(int empno, String name, String city) {
+		this.empno=empno;
+		this.name=name;
+		this.city=city;
+	}
+	public int getEmpno() {
+		return empno;
+	}
+	public void setEmpno(int empno) {
+		this.empno = empno;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+}
+
+hibernate.cfg.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC  
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"  
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">  
+<hibernate-configuration>  
+    <session-factory>  
+        <property name="hbm2ddl.auto">update</property>  
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>  
+ <property name="connection.url">jdbc:mysql://localhost:3306/myhibernate</property>         
+  <property name="connection.username">root</property>  
+        <property name="connection.password">dsrc</property>  
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>   
+      </session-factory>  
+</hibernate-configuration>
+
+MyMain.java
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.AnnotationConfiguration;
+
+
+import com.dsrc.bean.Employee;
+
+public class MyMain {
+
+	public static void main(String[] args) {
+SessionFactory sf=new AnnotationConfiguration().configure().addAnnotatedClass(Employee.class).buildSessionFactory();
+		
+		Session s=sf.openSession();
+		Employee c=new Employee(103,"Abi","Chennai");
+		
+		Transaction tc=s.beginTransaction();
+		s.save(c);
+		tc.commit();
+		s.close();
+		System.out.println("Done...");
+	}
+	public void saveEmployee(Employee eb) {
+		// TODO Auto-generated method stub
+	}
+}
+
+___________________________________________________________________________________________________
+
+7.Annotation
+
+Department.java
+
+package com.dsrc.bean;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Department")
+public class Department {
+	@Id
+	@Column(name="DeptNo")
+		public int deptno;
+	@Column(name="DeptName")
+		public String deptname;
+	@Column(name="Location")
+		public String location;
+		public Department(int deptno, String deptname, String location) {
+			this.deptno=deptno;
+			this.deptname=deptname;
+			this.location=location;
+		}
+		public int getDeptno() {
+			return deptno;
+		}
+		public void setDeptno(int deptno) {
+			this.deptno = deptno;
+		}
+		public String getDeptname() {
+			return deptname;
+		}
+		public void setDeptname(String deptname) {
+			this.deptname = deptname;
+		}
+		public String getLocation() {
+			return location;
+		}
+		public void setLocation(String location) {
+			this.location = location;
+		}
+		
+		}
+
+
+hibernate.cfg.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC  
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"  
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">  
+<hibernate-configuration>  
+    <session-factory>  
+        <property name="hbm2ddl.auto">update</property>  
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>  
+ <property name="connection.url">jdbc:mysql://localhost:3306/myhibernate</property>         
+  <property name="connection.username">root</property>  
+        <property name="connection.password">dsrc</property>  
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>   
+      </session-factory>  
+</hibernate-configuration>
+
+MyMain.java
+
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.AnnotationConfiguration;
+
+import com.dsrc.bean.Department;
+
+public class MyMain {
+
+	public static void main(String[] args) {
+
+SessionFactory sf=new AnnotationConfiguration().configure().addAnnotatedClass(Department.class).buildSessionFactory();
+		
+		Session s=sf.openSession();
+		Department c=new Department(70,"HR","INDIA");
+		
+		Transaction tc=s.beginTransaction();
+		s.save(c);
+		tc.commit();
+		s.close();
+		System.out.println("Done...");
+	}
+}
+_______________________________________________________________________________________________________
+
+8.Create a hibernate application persist the employee details accepting from the user. (Use Hibernate Annotation)
+
+Task:
+		Read EmpoyeeID , Name and City from the user using scanner and save to database.
+		
+The MainMenu Should look like the following
+
+EMPLOYEE MGMT
+-------------
+1. Enter Data
+2. Exit
+Enter your choice(1/2):
+
+If 1 is entered 
+
+Enter EmpNo: 211
+Enter Name : Your Name
+Enter City : Your City
+
+..Data Saved ...
+Enter your choice(1/2):
+
+if 2 end the application.		
+
+
+Employee.java
+
+package com.dsrc.bean;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Employee")
+public class Employee {
+@Id
+@Column(name="EmpNO")
+	private int empno;
+@Column(name="Name")
+	private String name;
+@Column(name="City")
+	private String city;
+	
+	public int getEmpno() {
+		return empno;
+	}
+	public void setEmpno(int empno) {
+		this.empno = empno;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+}
+
+
+hibernate.cfg.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC  
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"  
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">  
+<hibernate-configuration>  
+    <session-factory>  
+        <property name="hbm2ddl.auto">update</property>  
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>  
+ <property name="connection.url">jdbc:mysql://localhost:3306/myhibernate</property>         
+  <property name="connection.username">root</property>  
+        <property name="connection.password">dsrc</property>  
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>   
+      </session-factory>  
+</hibernate-configuration>
+
+MyMain.java
+
+import java.util.Scanner;
+
+import com.dsrc.bean.Employee;
+import com.dsrc.util.UserCode;
+
+public class MyMain {
+		private static int choice;
+		public static void main(String[] args) {
+			Employee e1 = new Employee();
+	            System.out.println("1. Insert ");
+	            System.out.println("3. Exit ");
+	            System.out.println("Enter your choice ");
+	            Scanner sc = new Scanner(System.in);
+	            choice = sc.nextInt();
+	            switch (choice) {
+	                case 1:
+	                    System.out.println("Enter EmpNo: ");
+	                    Scanner sc1 = new Scanner(System.in);
+	                    int empno = sc1.nextInt();
+	                    System.out.println("Enter Name: ");
+	                    Scanner sc2 = new Scanner(System.in);
+	                    String name = sc2.nextLine();
+	                    System.out.println("Enter City: ");
+	                    Scanner sc3 = new Scanner(System.in);
+	                   String city = sc3.nextLine();
+	                    e1.setEmpno(empno);
+	                    e1.setName(name);
+	                    e1.setCity(city);	
+	                  new UserCode().saveEmployee(e1);
+	                        break;
+	            case 2:
+	              System.exit(0);
+	              break;
+				}
+
+	}
+	}
+
+UserCode.java
+
+package com.dsrc.util;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.cfg.Configuration;
+
+import com.dsrc.bean.Employee;
+
+public class UserCode {
+	
+	public boolean saveEmployee(Employee bean)
+	{
+		
+		SessionFactory sf=new AnnotationConfiguration().configure().addAnnotatedClass(Employee.class).buildSessionFactory();
+		Session s=sf.openSession();
+		Transaction tc=s.beginTransaction();
+		s.save(bean);
+		tc.commit();
+		System.out.println("Done...");
+		
+		return false;
+	}
+
+}
+
+_________________________________________________________________________________________________________
+9.Delete
+
+Employee.java
+
+package com.dsrc.bean;
+
+
+
+public class Employee {
+
+	private int empno;
+
+	private String name;
+
+	private String city;
+	
+	public int getEmpno() {
+		return empno;
+	}
+	public void setEmpno(int empno) {
+		this.empno = empno;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+}
+
+
+hibernate.cfg.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC  
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"  
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">  
+<hibernate-configuration>  
+    <session-factory>  
+        <property name="hbm2ddl.auto">update</property>  
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>  
+ <property name="connection.url">jdbc:mysql://localhost:3306/myhibernate</property>         
+  <property name="connection.username">root</property>  
+        <property name="connection.password">dsrc</property>  
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>   
+        <mapping resource="employee.hbm.xml"></mapping>  
+      </session-factory>  
+</hibernate-configuration>
+
+employee.hbm.xml
+
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+<hibernate-mapping>
+   <class name = "com.dsrc.bean.Employee" table = "Employee"> 
+      <meta attribute = "class-description">
+         This class contains the employee detail. 
+      </meta>
+      <id name = "empno" type = "int" column = "EmpNO">
+         <generator class="assigned"/>
+      </id>
+      <property name = "name" column = "Name" type = "string"/>
+      <property name = "city" column = "City" type = "string"/>
+   </class>
+</hibernate-mapping>  
+
+MyMain.java
+
+import java.util.Scanner;
+
+import com.dsrc.bean.Employee;
+import com.dsrc.util.UserCode;
+
+public class MyMain {
+
+	public static void main(String[] args) {
+
+		Employee e1 = new Employee();
+        System.out.println("Enter EmpNo ");
+        Scanner sc1 = new Scanner(System.in);
+        int empno = sc1.nextInt();
+       
+        e1.setEmpno(empno);
+       
+    	new UserCode().deleteEmployee(e1);
+} 
+
+}
+
+UserCode.java
+
+
+package com.dsrc.util;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+import com.dsrc.bean.Employee;
+
+public class UserCode {
+	
+	public boolean deleteEmployee(Employee bean)
+	{
+		SessionFactory sf=new Configuration().configure().buildSessionFactory();
+		Session s=sf.openSession();
+		Transaction tx=null;
+		try{
+			tx = s.beginTransaction();
+			Employee employee=(Employee)s.get(Employee.class,bean.getEmpno());
+			s.delete(employee); 
+	         tx.commit();
+         	System.out.println("Done...");
+		}
+		catch(HibernateException e)
+		{
+			if(tx!=null)
+				tx.rollback();
+			e.printStackTrace();			
+		}
+		finally
+		{
+			s.close();
+		}
+		return false;
+	}
+
+}
+
+10.

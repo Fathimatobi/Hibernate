@@ -1,0 +1,1060 @@
+1.Create a Hibernate Application for ORM of Employee to the database.
+
+1. Create a database named Hiber.
+2. Create  id , name ,age and city variables in the Employee Bean.
+3. Create the getters  and setters
+4. Write the logic in UserCode.InsertEmployee() to Save the records into database.
+
+
+
+Employee.java
+*************
+
+package com.dsrc.bean;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Employee")
+public class Employee
+{
+	@Id
+	@Column(name="EmpNO")
+	private int id;
+	@Column(name="Name")
+	private String name;
+	@Column(name="City")
+	private String city;
+	@Column(name="Age")
+	private int age;
+	public Employee(int id, String name, int age, String city) {
+		this.id=id;
+		this.name=name;
+		this.age=age;
+		this.city=city;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	
+	
+}
+
+
+hibernate.cfg.xml
+*****************
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC  
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"  
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">  
+  
+<hibernate-configuration>  
+  
+    <session-factory>  
+    <property name="hibernate.hbm2ddl.java"></property>
+        <property name="hbm2ddl.auto">update</property>  
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>  
+        <property name="connection.url">jdbc:mysql://localhost:3306/myhibernate</property>  
+        <property name="connection.username">root</property>  
+        <property name="connection.password">dsrc</property>  
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>  
+    </session-factory>  
+  
+</hibernate-configuration>  
+
+MyMain.java
+***********
+
+import com.dsrc.util.UserCode;
+
+public class MyMain 
+{
+	public static void main(String[] args) {
+		
+		UserCode u=new UserCode();
+		u.insertEmployee(1001,"Nivi",7,"Chennai");
+	
+	}
+}
+
+
+UserCode.java
+*************
+
+package com.dsrc.util;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.AnnotationConfiguration;
+
+import com.dsrc.bean.Employee;
+
+public class UserCode 
+{
+
+	public boolean insertEmployee(int i, String string, int j, String string2) {
+
+		SessionFactory sf=new AnnotationConfiguration().configure().addAnnotatedClass(Employee.class).buildSessionFactory();
+		Session s=sf.openSession();
+		Transaction tc=s.beginTransaction();
+		Employee e1=new Employee(i,string,j,string2);
+		s.save(e1);
+		tc.commit();
+		System.out.println("Done...");
+		return false;
+	}
+}
+*******************************************************************************************
+2.Create a Hibernate Application to Fetch the Employee Records from Database
+
+1. Use the database named Hiber.
+2. Create  id , name ,age and city vaiables in the Employee Bean.
+3. Craete the getters  and setters
+4. Write the logic in UserCoede.displayEmployee() to display the records
+5. The format to be displayed ad follows.
+
+EMPLOEE RECORDS
+----------------
+EmpNo : 1001 Name:Nivi Age:7 City:Chennai
+EmpNo : 1002 Name:Madu Age:12 City:Chennai
+
+
+Employee.java
+*************
+
+package com.dsrc.bean;
+
+	import javax.persistence.Column;
+	import javax.persistence.Entity;
+	import javax.persistence.Id;
+	import javax.persistence.Table;
+
+	@Entity
+	@Table(name="Employee")
+	public class Employee
+	{
+		public Employee(){
+			
+		}
+		@Id
+		@Column(name="EmpNO")
+		private int id;
+		@Column(name="Name")
+		private String name;
+		@Column(name="Age")
+		private int age;
+		@Column(name="City")
+		private String city;
+		public Employee(int id, String name, int age, String city) {
+			this.id=id;
+			this.name=name;
+			this.age=age;
+			this.city=city;
+		}
+		public int getId() {
+			return id;
+		}
+		public void setId(int id) {
+			this.id = id;
+		}
+		public String getName() {
+			return name;
+		}
+		public void setName(String name) {
+			this.name = name;
+		}
+		public int getAge() {
+			return age;
+		}
+		public void setAge(int age) {
+			this.age = age;
+		}
+		public String getCity() {
+			return city;
+		}
+		public void setCity(String city) {
+			this.city = city;
+		}
+	}
+
+hibernate.cfg.xml
+******************
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC  
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"  
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">  
+  
+<hibernate-configuration>  
+  
+    <session-factory>  
+    <property name="hibernate.hbm2ddl.java"></property>
+        <property name="hbm2ddl.auto">update</property>  
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>  
+        <property name="connection.url">jdbc:mysql://localhost:3306/myhibernate</property>  
+        <property name="connection.username">root</property>  
+        <property name="connection.password">dsrc</property>  
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>  
+    </session-factory>  
+ 
+</hibernate-configuration>  
+
+MyMain.java
+************
+
+import com.dsrc.util.UserCode;
+
+public class MyMain 
+{
+	public static void main(String[] args) {
+		
+		UserCode u=new UserCode();
+		u.displayEmployees();
+	}
+
+}
+
+UserCode.java
+*************
+
+package com.dsrc.util;
+
+import java.util.List;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.AnnotationConfiguration;
+import java.util.Iterator ;
+import com.dsrc.bean.Employee;
+
+public class UserCode 
+{
+	public void displayEmployees() {
+		SessionFactory sf=new AnnotationConfiguration().configure().addAnnotatedClass(Employee.class).buildSessionFactory();
+		Session s=sf.openSession();
+		Transaction tx=null;
+		try
+		{
+		tx=s.beginTransaction();
+		List employee= s.createQuery("From Employee").list();
+				for(Iterator i=employee.iterator();i.hasNext();){
+					Employee e=(Employee)i.next();
+					System.out.println("EmpNo:"+e.getId());
+					System.out.println("Name:"+e.getName());
+					System.out.println("Age:"+e.getAge());
+					System.out.println("City:"+e.getCity());
+					tx.commit();
+				}
+		}
+		catch(HibernateException e)
+		{
+			if(tx!=null)tx.rollback();
+			e.printStackTrace();
+		}
+		finally{
+			s.close();
+		}
+		}
+	}
+
+******************************************************************************************
+3.Create a Hibernate Application with MANY-TO-ONE mapping
+
+A many-to-one association is the most common kind of association where an Object
+ can be associated with multiple objects.
+ For example, the same address object can be associated with multiple employee objects.
+
+Employee.java
+*************
+
+package com.dsrc.bean;
+
+public class Employee 
+{
+	private int empno;
+	private String ename;
+	private int salary;
+    private Address address;
+	
+	public Employee() {}
+	   
+	   public Employee(int empno, String ename, int salary, Address address ) {
+	      this.empno=empno;
+	      this.ename=ename;
+	      this.salary=salary;
+	      this.setAddress(address);
+	   }
+	   
+	public int getEmpno() {
+		return empno;
+	}
+
+	public void setEmpno(int empno) {
+		this.empno = empno;
+	}
+
+	public String getEname() {
+		return ename;
+	}
+
+	public void setEname(String ename) {
+		this.ename = ename;
+	}
+
+	public int getSalary() {
+		return salary;
+	}
+
+	public void setSalary(int salary) {
+		this.salary = salary;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+}
+
+Address.java
+************
+
+package com.dsrc.bean;
+public class Address
+{
+	private int empno;
+	private String addressText;
+	
+	public Address(int empno,String address)
+	{
+			this.empno=empno;
+			this.setAddressText(address);
+	}
+
+	public int getEmpno() {
+		return empno;
+	}
+
+	public void setEmpno(int empno) {
+		this.empno = empno;
+	}
+
+	public String getAddressText() {
+		return addressText;
+	}
+
+	public void setAddressText(String addressText) {
+		this.addressText = addressText;
+	}
+}
+
+
+
+Employee.hbm.xml
+*****************
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC  
+ "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+ "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+<hibernate-mapping>
+   <class name = "com.dsrc.bean.Employee" table = "EMPLOYEE">   
+      <meta attribute = "class-description">
+         This class contains the employee detail. 
+      </meta>
+      <id name = "empno" type = "int" column = "empno">
+         <generator class="assigned"/>
+      </id>
+      <property name = "ename" column = "ename" type = "string"/>
+      <property name = "salary" column = "salary" type = "int"/>
+      <many-to-one name = "address" column = "address" unique="true" 
+         class="com.dsrc.bean.Address" not-null="true"/>         
+   	 </class>
+</hibernate-mapping>
+
+Address.hbm.xml
+***************
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC  
+ "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+ "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+<hibernate-mapping>
+<class name = "com.dsrc.bean.Address" table="ADDRESS">
+      <meta attribute = "class-description">
+         This class contains the address detail. 
+      </meta>
+     <id name="empno">  
+     <generator class="assigned"></generator>  
+    </id>
+      <property name = "addressText" column = "address" type = "string"/>
+   </class>
+   </hibernate-mapping>
+
+hibernate.cfg.xml
+*****************
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC  
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"  
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">  
+  
+<hibernate-configuration>  
+  
+    <session-factory>  
+        <property name="hbm2ddl.auto">create</property>  
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>  
+        <property name="connection.url">jdbc:mysql://localhost:3306/myhibernate</property>  
+        <property name="connection.username">root</property>  
+        <property name="connection.password">dsrc</property>  
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>  
+        <mapping resource="Employee.hbm.xml"></mapping>
+<mapping resource="Address.hbm.xml"></mapping>
+    </session-factory>  
+  
+</hibernate-configuration>  
+
+MyMain.java
+************
+
+import com.dsrc.util.UserCode;
+
+public class MyMain 
+{
+public static void main(String[] args) {
+
+		UserCode u=new UserCode();
+		u.doManytoOne();
+	}
+
+}
+
+UserCode.java
+**************
+
+package com.dsrc.util;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.AnnotationConfiguration;
+
+import com.dsrc.bean.Address;
+import com.dsrc.bean.Employee;
+
+public class UserCode 
+{
+	public void doManytoOne() {
+		
+		SessionFactory sf=new Configuration().
+configure().buildSessionFactory();
+			
+			Session s=sf.openSession();
+		Transaction t=s.beginTransaction();
+		Address a=new Address(1, "Chennai");
+		s.save(a);
+		Employee e=new Employee(1, "Rada", 89999, a);
+		s.save(e);		
+		t.commit();
+		s.close();
+		System.out.println("Done...");
+	}	
+}
+****************************************************************************************************
+
+4.Create a Hibernate Application with MANY-TO-ONE mapping
+
+A many-to-one association is the most common kind of association where an Object
+ can be associated with multiple objects.
+ For example, the same address object can be associated with multiple employee objects.
+
+1. Use the database named Hiber.
+2. Create a bean named address with empno,addressText
+3. Create a bean named Employee with id , name  ,and Address Object
+4. Create the mapping files and do many to one mapping inside the hbm file.
+5. Save both the Objects to database.
+
+
+Department.java
+***************
+
+package com.dsrc.bean;
+
+public class Department {
+	private int Deptno;
+	private String DeptName;
+	private String Location;
+	
+public Department(int Deptno, String DeptName,String Location) {
+	this.setDeptno(Deptno);
+    this.DeptName=DeptName;
+    this.Location=Location;
+}
+public int getDeptno()
+{
+	return Deptno;
+}
+public void setDeptno(int deptno) {
+	Deptno = deptno;
+}
+
+public String getDeptName() {
+	return DeptName;
+}
+public void setDeptName(String deptName) {
+	DeptName = deptName;
+}
+public String getLocation() {
+	return Location;
+}
+public void setLocation(String location) {
+	Location = location;
+}
+}
+
+
+Employee.java
+*************
+
+package com.dsrc.bean;
+
+public class Employee
+{
+	private int id;
+	private String name;
+	private Department department;
+	public Employee(int id,String name,Department department)
+	{
+			this.id=id;
+			this.name=name;
+			this.setDepartment(department);
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public Department getDepartment() {
+		return department;
+	}
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+}
+
+Employee.hbm.xml
+*****************
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC  
+ "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+ "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+<hibernate-mapping>
+   <class name = "com.dsrc.bean.Employee" table = "EMPLOYEE">   
+      <meta attribute = "class-description">
+         This class contains the employee detail. 
+      </meta>
+      <id name = "id" type = "int" column = "empno">
+         <generator class="assigned"/>
+      </id>
+      <property name = "name" column = "Name" type = "string"/>
+      <many-to-one name = "department" column = "Deptno" unique="true" 
+         class="com.dsrc.bean.Department" not-null="true"/>   
+   	 </class>
+</hibernate-mapping>
+
+Department.hbm.xml
+*******************
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC  
+ "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+ "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+<hibernate-mapping>
+<class name = "com.dsrc.bean.Department" table="DEPARTMENT">
+      <meta attribute = "class-description">
+         This class contains the address detail. 
+      </meta>
+     <id name="Deptno" type="int" column="Deptno">  
+     <generator class="assigned"></generator>  
+    </id>
+      <property name = "DeptName" column = "DeptName" type = "string"/>
+       <property name = "Location" column = "Location" type = "string"/>
+       
+   </class>
+   </hibernate-mapping>
+
+hibernate.cfg.xml
+********************
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC  
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"  
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">  
+  
+<hibernate-configuration>  
+  
+    <session-factory>  
+        <property name="hbm2ddl.auto">create</property>  
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>  
+        <property name="connection.url">jdbc:mysql://localhost:3306/myhibernate</property>  
+        <property name="connection.username">root</property>  
+        <property name="connection.password">dsrc</property>  
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <mapping resource="Department.hbm.xml"></mapping>  
+         <mapping resource="Employee.hbm.xml"></mapping>
+    </session-factory>  
+</hibernate-configuration>  
+
+UserCode.java
+**************
+
+package com.dsrc.util;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.AnnotationConfiguration;
+
+import com.dsrc.bean.Department;
+import com.dsrc.bean.Employee;
+
+public class UserCode 
+{
+
+	public void doManytoOne() {
+		SessionFactory sf=new Configuration().
+configure().buildSessionFactory();
+			
+			Session s=sf.openSession();
+						Transaction t=s.beginTransaction();
+						Department d=new Department(1,"yoge","chennai");
+						s.save(d);
+						Employee e=new Employee(1,"Rada",d);
+						s.save(e);
+						t.commit();
+						s.close();
+						System.out.println("Done...");
+					}	
+		
+}
+
+MyMain.java
+*************
+
+import com.dsrc.util.UserCode;
+
+public class MyMain 
+{
+	public static void main(String[] args) {
+		UserCode u=new UserCode();
+		u.doManytoOne();
+	}
+
+}
+******************************************************************************************
+
+6.Create a WebApplication to Persist the Data using Hibernate.
+
+Task:
+1. Create registration controls in Register.jsp  ( Accept LoginName,Password m Age and City and create a submit button) .
+2. Create a RegisterBean with the following fields
+		String loginname , String password , int age , String City. ( Make Gettters and Setters)
+
+3. Create a RegistrationServlet . Read all datas from jsp and assign to bean.
+4. Call the register() method in HibernateDAO and pass the bean as argument.
+5. Store the bean in DB using hibernate Code:
+6 . If success go to success.html saying that Successfully Registered!
+
+NB : Jar files need to be copied into WEB-INF /lib folder
+
+
+Register.jsp
+************
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="RegistrationServlet" method="post">
+<center>
+<b><font size="5">Registration Form</font></b>
+<table>
+<tr><td>Enter Name</td><td><input type="text" name="name"></td></tr>
+<tr><td>Enter Password</td><td><input type="password" name="pass"></td></tr>
+<tr><td>Age</td><td><input type="text" name="age"></td><br> 
+<tr><td>Select City</td><td><input type="text" name="city"></td></tr>
+<tr><td></td><td align="right"><input type="submit" value="Register"></td></tr>
+</table>
+</form>
+</body>
+</html>
+
+
+RegisterBean.java
+*******************
+
+package com.dsrc.work;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Register")
+public class RegisterBean {
+	@Id
+	@Column(name="loginname")
+	private String loginname;
+	@Column(name="password")
+	private String password;
+	@Column(name="age")
+	private int age;
+	@Column(name="city")
+	private String City;
+
+	public String getLoginname() {
+		return loginname;
+	}
+	public void setLoginname(String loginname) {
+		this.loginname = loginname;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+	public String getCity() {
+		return City;
+	}
+	public void setCity(String city) {
+		City = city;
+	}
+	
+}
+
+RegistrationServlet.java
+*************************
+
+protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RegisterBean regBean=new RegisterBean();
+		regBean.setLoginname(request.getParameter("name"));
+		regBean.setPassword(request.getParameter("pass"));
+		regBean.setAge(Integer.parseInt(request.getParameter("age")));
+		regBean.setCity(request.getParameter("city"));
+		boolean res=new HibernateDAO().register(regBean);
+		if(res)
+		{
+			RequestDispatcher rd=request.getRequestDispatcher("success.html");
+			request.setAttribute("name",regBean.getLoginname());
+			rd.forward(request,response);
+		}
+		else
+		{
+			System.out.println("InCorrect Register");
+		}
+	}
+
+HibernateDAO.java
+*****************
+
+package com.dsrc.work;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.cfg.Configuration;
+
+public class HibernateDAO
+{
+			public boolean register(RegisterBean rbean) 
+			{
+				SessionFactory sf=new AnnotationConfiguration()
+.configure().addAnnotatedClass(RegisterBean.class).buildSessionFactory();
+				Session s=sf.openSession();
+				Transaction tc=s.beginTransaction();
+				s.save(rbean);
+				tc.commit();
+				return true;
+			}
+}
+
+hibernate.cfg.xml
+*****************
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC  
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"  
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">  
+  
+<hibernate-configuration>  
+  
+    <session-factory>  
+        <property name="hbm2ddl.auto">create</property>  
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>  
+        <property name="connection.url">jdbc:mysql://localhost:3306/myhibernate</property>  
+        <property name="connection.username">root</property>  
+        <property name="connection.password">dsrc</property>  
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+  <mapping class="com.dsrc.work.RegisterBean"/>
+    </session-factory>  
+</hibernate-configuration>  
+
+success.html
+*************
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+Successfully Registered!
+</body>
+</html>
+******************************************************************************************************************************************
+
+7&8.Create a WebApplication to Persist the Data using Hibernate.
+
+Task:
+1. Create registration controls in changeprofile.jsp  ( Accept LoginName,Password m Age and City and create a submit button) .
+2. Create a RegisterBean with the following fields
+		String loginname , String password , int age , String City. ( Make Gettters and Setters)
+
+3. Create a RegistrationServlet . Read all datas from jsp and assign to bean.
+4. Call the updateProfile() method in HibernateDAO and pass the bean as argument.
+
+5. Modify the existing data if the Login name is already present.
+6 . If success go to success.html saying that Successfully Registered!
+7. Else go to error.html and say Invalid Profile..
+
+NB : Jar files need to be copied into WEB-INF /lib folder.
+
+RegisterBean.java
+****************
+package com.dsrc.work;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+@Entity
+@Table(name="Register")
+public class RegisterBean {
+	@Id
+	@Column(name="loginname")
+	private String loginname;
+	
+	@Column(name="password")
+	private String password;
+	
+	@Column(name="age")
+	private int age;
+	
+	@Column(name="City")
+	private String City;
+	
+	public String getLoginname() {
+		return loginname;
+	}
+	public void setLoginname(String loginname) {
+		this.loginname = loginname;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+	public String getCity() {
+		return City;
+	}
+	public void setCity(String city) {
+		City = city;
+	}
+}
+
+RegistrationServlet.java
+***********************
+RegisterBean bean=new RegisterBean();
+		try
+		{
+			bean.setLoginname(request.getParameter("username"));
+			bean.setPassword(request.getParameter("password"));
+			bean.setAge(Integer.parseInt(request.getParameter("age")));
+			bean.setCity(request.getParameter("city"));
+			boolean res=new HibernateDAO().updateProfile(bean);
+			if(res)
+			{
+				RequestDispatcher rd=request.getRequestDispatcher("success.html");
+				rd.forward(request, response);
+			}
+			else
+			{
+				RequestDispatcher rd=request.getRequestDispatcher("error.html");
+				rd.forward(request, response);
+			}
+		}
+		catch(NullPointerException e)
+		{
+			RequestDispatcher rd=request.getRequestDispatcher("success.html");
+			rd.forward(request, response);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+	}}
+
+HibernateDAO.java
+*******************
+package com.dsrc.work;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.AnnotationConfiguration;
+
+public class HibernateDAO
+{
+			public boolean updateProfile(RegisterBean rbean)
+			{
+				SessionFactory sx=new AnnotationConfiguration().configure().addAnnotatedClass(RegisterBean.class).buildSessionFactory();
+				Session s=sx.openSession();
+				Transaction t=s.beginTransaction();
+				
+				s.saveOrUpdate(rbean);
+				t.commit();
+				return true;
+			}
+}
+
+changeprofile.jsp
+*****************
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<FORM action="ChangeProfileServlet" METHOD="POST">
+           <table><tr><td> Login Name </td><td><INPUT TYPE="TEXT" NAME="username"></td></tr>
+            <tr><td>Password </td><td><input type="password" name="password"></td></tr>
+            <tr><td>Age </td><td><input type="number" name="age"></td></tr>
+            <tr><td>City</td><td><INPUT TYPE="TEXT" NAME="city"></td></tr>
+             <tr><td> </td><td> <INPUT TYPE="SUBMIT" value="Update" ></td></tr>
+</table></FORM>			
+</body>
+</html>
+
+hibernate.cfg.xml
+******************
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC  
+          "-//Hibernate/Hibernate Configuration DTD 3.0//EN"  
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">  
+  
+<hibernate-configuration>  
+  
+    <session-factory>  
+        <property name="hbm2ddl.auto">update</property>  
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>  
+        <property name="connection.url">jdbc:mysql://localhost:3306/Hiber</property>  
+        <property name="connection.username">root</property>  
+        <property name="connection.password">dsrc</property>  
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>    
+        <mapping class="com.dsrc.work.RegisterBean"/>
+    </session-factory> 
+    </hibernate-configuration> 
+
+error.html
+***********
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+Invalid Profile..
+</body>
+</html>
+
+
+success.html
+***********
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+Successfully Registered!
+</body>
+</html>
+
+
