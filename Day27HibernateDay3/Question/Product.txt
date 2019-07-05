@@ -1,0 +1,40 @@
+TasK:
+1. Go to ProuctController Class , productManage() method.
+
+2. call the showProductMenu() method of ProductScreen class.
+
+3 .the method should display the following.
+--------------------------------
+PRODUCT MENU
+-------------
+1. New Product
+2. Edit Product
+3. Delete Product
+4. List Product
+5. Search Product
+6. Exit.
+
+Enter Your Choice :
+
+--------------------------------
+If the choice is 3 , Show the following.
+--------------------------------
+Enter Product ID : 102
+
+Product Deleted...
+---------------------------------
+And go back to Product Menu
+
+Tasks:
+a)Assign the productID to Product bean.
+c) Pass the Product object to DataValidators validateProduct() method.
+d) validateProduct() should call  HibernateUtils deleteProduct() method and pass the product object as argument.
+e) Write the hibernate code for saving product details into database inside deleteProduct() method.
+f) Display INVALID ID if the product id passed is wrong.
+
+
+
+
+
+
+

@@ -1,0 +1,49 @@
+Create a Hibernate Application Product Management System. (Create databse PMS).
+
+The questions are related to  one other.(Keep the source code).The template remain the same and when moven to next question ,the solution is
+gonna be Question 1 Solution+ New Task from Next Question.
+
+Tasks
+Create a Product Management System using the Powerful features of Hibernate.
+
+packages and classes to be created
+
+The following template is given
+-------------------------
+
+com.dsrc.view
+		MenuScreen		
+com.dsrc.service
+		DataValidator		
+com.dsrc.model
+		Product		
+com.dsrc.dao
+		HibernateUtil
+com.dsrc.exceptions
+		ProductException
+com.dsrc.executer
+		MyMain
+
+
+Task:
+1. Add a method in MenuScreen called showMenu with return type integer , display a menu and return the choice selected
+
+showMenu.. output
+----------------------
+Select Your Option
+1. Product
+2. Sales
+3. Staff
+4. Customer
+
+Enter your Choice : 
+-----------------------
+2. If the choice is 1 , See the  task in  Product.txt file. 
+
+
+
+
+
+
+
+ 
